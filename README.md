@@ -1,5 +1,7 @@
-# advance_programming_final_project
-Final project group_9
-Bryant Burgos 82874
-Sebastian Castro 107094
-Paola Osorio 96728
+#CECS-3210 Advanced Programming: Final Project
+##Group #9
+
+No.:
+#82874
+#107094
+#96728
