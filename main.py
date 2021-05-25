@@ -79,27 +79,6 @@ class Vehicle:
         if(center.getX() > 0):
             self.icon.move(dx, 0)
 
-##    def moveRight(self):
-##        center = self.icon.getCenter()
-##        while (center.getX() < 6):
-##            update(35)
-##            self.update(1/500)
-##            center = self.icon.getCenter()
-##            print(center.getX()) #<-- for tracking X values,
-##        self.despawn()           #    purely for test purposes
-##    
-##    def moveLeft(self):
-##        center = self.icon.getCenter()
-##        while (center.getX() > 0):
-##            update(35)
-##            self.update(1/500)
-##            center = self.icon.getCenter()
-##            print(center.getX())
-##        self.despawn()
-##
-##    def hasImpacted():
-##        return self.impact
-
     def despawn(self):
         self.icon.undraw()
 
@@ -112,18 +91,25 @@ def main():
     win.setBackground("white")
 
     drawBackground(win)
+
+    controlNote = Text(Point(3, 0.2), "Press Q to stop.")
+    controlNote.setSize(12)
+    controlNote.setTextColor("yellow")
+    controlNote.draw(win)
     
     #Simultaneous movement using lists was successful
     
     #Animations are currently choppy, could smooth them out later.
 
-
+    #                     0                         1                          2                         3                          4
     carSims = [Vehicle(win, 0.8, 10, 0), Vehicle(win, 1.3, -10, 6), Vehicle(win, 1.8, 10, 0), Vehicle(win, 2.3, -10, 6), Vehicle(win, 2.8, 10, 0)]
+    carSims2 = [Vehicle(win, 0.8, 10, 0), Vehicle(win, 1.3, -10, 6), Vehicle(win, 1.8, 10, 0), Vehicle(win, 2.3, -10, 6), Vehicle(win, 2.8, 10, 0)]
     #Even indexes move right; odd indexes left.
 
     for j in range(len(carSims)):
         carSims[j].spawn(win)
         
+    spawnDelay = 0
 
     forceStop = False
 
@@ -133,14 +119,43 @@ def main():
         if key in ["q", "Q"]:
             forceStop = True
 
-        for i in range(len(carSims)):
-            update(50)
-            if(i % 2 == 0): #Even index
-                carSims[i].updateRight(1/100)
-            else:
-                carSims[i].updateLeft(1/100)
-                
+        if key in ["w", "W", "Up"]: #Placeholder for frog movement
+            pass
+        elif key in ["a", "A", "Left"]:
+            pass
+        elif key in ["s", "S", "Down"]:
+            pass
+        elif key in ["d", "D", "Right"]:
+            pass
 
+        moveVehicles(carSims, win)
+
+        spawnDelay = spawnDelay + 1
+
+        if spawnDelay == 25:
+            for k in range(len(carSims)):
+                carSims2[k].spawn(win)
+
+        if spawnDelay >= 25:
+            moveVehicles(carSims2, win)
+            
+        
+##        for i in range(len(carSims)):
+##            update(50)
+##            if(i % 2 == 0): #Even index
+##                carSims[i].updateRight(1/100)
+##                if(carSims[i].getX() > 6):
+##                    carSims[i].despawn()
+##                    carSims[i].spawn(win)
+##                    
+##            else:
+##                carSims[i].updateLeft(1/100)
+##                if(carSims[i].getX() < 0):
+##                    carSims[i].despawn()
+##                    carSims[i].spawn(win)
+                
+    controlNote.undraw()
+    
     alert = Text(Point(3, 2), "Click anywhere to exit!")
 
     alert.setSize(20)
@@ -151,6 +166,21 @@ def main():
     win.close()
 
 #*******************************************************************************************
+
+def moveVehicles(vehicleList, windowName):
+    for i in range(len(vehicleList)):
+        update(50)
+        if(i % 2 == 0): #Even index
+            vehicleList[i].updateRight(1/100)
+            if(vehicleList[i].getX() > 6):
+                vehicleList[i].despawn()
+                vehicleList[i].spawn(windowName)
+                
+        else:
+            vehicleList[i].updateLeft(1/100)
+            if(vehicleList[i].getX() < 0):
+                vehicleList[i].despawn()
+                vehicleList[i].spawn(windowName)
 
 def drawBackground(windowName):
 
@@ -169,8 +199,6 @@ def drawBackground(windowName):
     upperMS = medianStrip.clone()
     upperMS.move(0, 3)
     upperMS.draw(windowName)
-
-
 
 #*******************************************************************************************
 
