@@ -1,11 +1,13 @@
 '''
-Advance Programming project
-Group 9
-Bryant Burgos 82874
-Sebastian Castro 107094
-Paola Osorio 96728
+CECS 3210: Advanced Programming Final Project
+Group #9
+Paola Osorio #96728
+Bryant Burgos #82874
+Sebastian Castro #107094
 '''
 
+#Using the cannonball exercise from the Zelle book as reference
+#for making multiple objects move ("animation2.py")
 
 from graphics import *
 from projectile import Projectile
@@ -33,7 +35,10 @@ class Frog: #<--Placeholder
 
 class Vehicle:
     
-    #Graphical depiction of moving vehicles
+    #Graphical depiction of vehicle movement using red dots
+    
+    #Direction is determined by whether the
+    #given velocity is positive or negative.
     
     def __init__(self, windowName, height, velocity, start):
         self.windowName = windowName
@@ -42,8 +47,8 @@ class Vehicle:
         self.start = start
         
     def spawn(self, windowName):
-        self.proj = Projectile(0, self.velocity, self.height)
-        self.icon = Circle(Point(self.start , self.height), 0.15)
+        self.proj = Projectile(0, self.velocity, self.height, self.start)
+        self.icon = Circle(Point(self.start , self.height), 0.05)
         self.icon.setFill("red")
         self.icon.setOutline("red")
         self.icon.draw(windowName)
@@ -66,45 +71,60 @@ class Vehicle:
             update(35)
             self.update(1/500)
             center = self.icon.getCenter()
+            print(center.getX()) #<-- for tracking X values,
+        self.despawn()           #    purely for test purposes
+    
+    def moveLeft(self):
+        center = self.icon.getCenter()
+        while (center.getX() > 0):
+            update(35)
+            self.update(1/500)
+            center = self.icon.getCenter()
             print(center.getX())
         self.despawn()
-    
-##    def moveLeft(self):
-##        center = self.icon.getCenter()
-##        while (center.getX() > 0):
-##            update(35)
-##            self.update(1/500)
-##            center = self.icon.getCenter()
-##            print(center.getX())
-##        self.despawn()
 
-    def hasImpacted():
-        return self.impact
+##    def hasImpacted():
+##        return self.impact
 
     def despawn(self):
         self.icon.undraw()
 
+
+
 def main():
 
-    win = GraphWin("Frogger", 600, 700, autoflush = False)
-    win.setCoords(0, 0, 6, 7)
+    win = GraphWin("Frogger", 600, 400, autoflush = False)
+    win.setCoords(0, 0, 6, 4)
     win.setBackground("white")
 
     drawBackground(win)
 
-    carSim = Vehicle(win, 1, 10, 1)
+    #Movement currently works well
+    
+    #Will have to use lists later on
+    #for simultanous movement
+
+    carSim = Vehicle(win, 0.8, 50, 0)
     carSim.spawn(win)
     carSim.moveRight()
     
-    carSim2 = Vehicle(win, 1.5, -10, 3)
+    carSim2 = Vehicle(win, 1.3, -50, 6)
     carSim2.spawn(win)
+    carSim2.moveLeft()
 
-    for i in range (400):
-        update(35)
-        carSim2.update(1/500)
+    carSim3 = Vehicle(win, 1.8, 50, 0)
+    carSim3.spawn(win)
+    carSim3.moveRight()
 
+    carSim4 = Vehicle(win, 2.3, -50, 6)
+    carSim4.spawn(win)
+    carSim4.moveLeft()
 
-    alert = Text(Point(3, 3.5), "Click anywhere to exit!")
+    carSim5 = Vehicle(win, 2.8, 50, 0)
+    carSim5.spawn(win)
+    carSim5.moveRight() 
+
+    alert = Text(Point(3, 2), "Click anywhere to exit!")
     alert.setSize(20)
     alert.setTextColor("yellow")
     alert.draw(win)
@@ -112,13 +132,11 @@ def main():
     alert.undraw()
     win.close()
 
-    pass
-
 #*******************************************************************************************
 
 def drawBackground(windowName):
 
-    windowName.setBackground("medium blue")
+    windowName.setBackground("lime green")
     
     road = Rectangle(Point(0, 0.5), Point(6, 3))
     road.setOutline("black")
@@ -133,12 +151,6 @@ def drawBackground(windowName):
     upperMS = medianStrip.clone()
     upperMS.move(0, 3)
     upperMS.draw(windowName)
-
-
-    frogLane = Rectangle(Point(0, 7), Point(6, 6))
-    frogLane.setOutline("lime green")
-    frogLane.setFill("lime green")
-    frogLane.draw(windowName)
 
 
 

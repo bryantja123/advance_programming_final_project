@@ -12,10 +12,10 @@ class Projectile:
     surface, ignoring wind resistance. Tracking is done in two
     dimensions, height (y) and distance (x)."""
 
-    def __init__(self, angle, velocity, yinit):
-        """Create a projectile with given launch angle, initial
-        velocity and position."""
-        self.xpos = 0
+    def __init__(self, angle, velocity, yinit, xinit):              #changed xpos to xinit
+        """Create a projectile with given launch angle, initial"""  #insead of just starting
+        """velocity and position."""                                #every time at 0
+        self.xpos = xinit
         self.ypos = yinit
         theta = radians(angle)
         self.xvel = velocity * cos(theta)
