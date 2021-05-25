@@ -65,24 +65,38 @@ class Vehicle:
         dx = self.proj.getX() - center.getX()
         self.icon.move(dx, 0)
 
-    def moveRight(self):
+    def updateRight(self, time):
+        self.proj.update(time)
         center = self.icon.getCenter()
-        while (center.getX() < 6):
-            update(35)
-            self.update(1/500)
-            center = self.icon.getCenter()
-            print(center.getX()) #<-- for tracking X values,
-        self.despawn()           #    purely for test purposes
-    
-    def moveLeft(self):
-        center = self.icon.getCenter()
-        while (center.getX() > 0):
-            update(35)
-            self.update(1/500)
-            center = self.icon.getCenter()
-            print(center.getX())
-        self.despawn()
+        dx = self.proj.getX() - center.getX()
+        if(center.getX() < 6):
+            self.icon.move(dx, 0)
 
+    def updateLeft(self, time):
+        self.proj.update(time)
+        center = self.icon.getCenter()
+        dx = self.proj.getX() - center.getX()
+        if(center.getX() > 0):
+            self.icon.move(dx, 0)
+
+##    def moveRight(self):
+##        center = self.icon.getCenter()
+##        while (center.getX() < 6):
+##            update(35)
+##            self.update(1/500)
+##            center = self.icon.getCenter()
+##            print(center.getX()) #<-- for tracking X values,
+##        self.despawn()           #    purely for test purposes
+##    
+##    def moveLeft(self):
+##        center = self.icon.getCenter()
+##        while (center.getX() > 0):
+##            update(35)
+##            self.update(1/500)
+##            center = self.icon.getCenter()
+##            print(center.getX())
+##        self.despawn()
+##
 ##    def hasImpacted():
 ##        return self.impact
 
@@ -98,33 +112,37 @@ def main():
     win.setBackground("white")
 
     drawBackground(win)
-
-    #Movement currently works well
     
-    #Will have to use lists later on
-    #for simultanous movement
-
-    carSim = Vehicle(win, 0.8, 50, 0)
-    carSim.spawn(win)
-    carSim.moveRight()
+    #Simultaneous movement using lists was successful
     
-    carSim2 = Vehicle(win, 1.3, -50, 6)
-    carSim2.spawn(win)
-    carSim2.moveLeft()
+    #Animations are currently choppy, could smooth them out later.
 
-    carSim3 = Vehicle(win, 1.8, 50, 0)
-    carSim3.spawn(win)
-    carSim3.moveRight()
 
-    carSim4 = Vehicle(win, 2.3, -50, 6)
-    carSim4.spawn(win)
-    carSim4.moveLeft()
+    carSims = [Vehicle(win, 0.8, 10, 0), Vehicle(win, 1.3, -10, 6), Vehicle(win, 1.8, 10, 0), Vehicle(win, 2.3, -10, 6), Vehicle(win, 2.8, 10, 0)]
+    #Even indexes move right; odd indexes left.
 
-    carSim5 = Vehicle(win, 2.8, 50, 0)
-    carSim5.spawn(win)
-    carSim5.moveRight() 
+    for j in range(len(carSims)):
+        carSims[j].spawn(win)
+        
+
+    forceStop = False
+
+    while(forceStop == False):
+
+        key = win.checkKey() #checkKey() != getKey()
+        if key in ["q", "Q"]:
+            forceStop = True
+
+        for i in range(len(carSims)):
+            update(50)
+            if(i % 2 == 0): #Even index
+                carSims[i].updateRight(1/100)
+            else:
+                carSims[i].updateLeft(1/100)
+                
 
     alert = Text(Point(3, 2), "Click anywhere to exit!")
+
     alert.setSize(20)
     alert.setTextColor("yellow")
     alert.draw(win)
