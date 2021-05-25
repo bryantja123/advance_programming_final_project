@@ -48,9 +48,7 @@ class Vehicle:
         
     def spawn(self, windowName):
         self.proj = Projectile(0, self.velocity, self.height, self.start)
-        self.icon = Circle(Point(self.start , self.height), 0.05)
-        self.icon.setFill("red")
-        self.icon.setOutline("red")
+        self.icon = Image(Point(self.start , self.height), "reddot.gif")
         self.icon.draw(windowName)
 
     def getX(self):
@@ -61,20 +59,20 @@ class Vehicle:
 
     def update(self, time):
         self.proj.update(time)
-        center = self.icon.getCenter()
+        center = self.icon.getAnchor()
         dx = self.proj.getX() - center.getX()
         self.icon.move(dx, 0)
 
     def updateRight(self, time):
         self.proj.update(time)
-        center = self.icon.getCenter()
+        center = self.icon.getAnchor()
         dx = self.proj.getX() - center.getX()
         if(center.getX() < 6):
             self.icon.move(dx, 0)
 
     def updateLeft(self, time):
         self.proj.update(time)
-        center = self.icon.getCenter()
+        center = self.icon.getAnchor()
         dx = self.proj.getX() - center.getX()
         if(center.getX() > 0):
             self.icon.move(dx, 0)
@@ -82,7 +80,8 @@ class Vehicle:
     def despawn(self):
         self.icon.undraw()
 
-
+class Plow(Vehicle):
+    pass
 
 def main():
 
@@ -138,21 +137,6 @@ def main():
 
         if spawnDelay >= 25:
             moveVehicles(carSims2, win)
-            
-        
-##        for i in range(len(carSims)):
-##            update(50)
-##            if(i % 2 == 0): #Even index
-##                carSims[i].updateRight(1/100)
-##                if(carSims[i].getX() > 6):
-##                    carSims[i].despawn()
-##                    carSims[i].spawn(win)
-##                    
-##            else:
-##                carSims[i].updateLeft(1/100)
-##                if(carSims[i].getX() < 0):
-##                    carSims[i].despawn()
-##                    carSims[i].spawn(win)
                 
     controlNote.undraw()
     
