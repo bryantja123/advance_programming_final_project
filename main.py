@@ -89,8 +89,8 @@ def main():
     #Need to adjust different vehicle velocities
 
     #                     0                         1                          2                         3                          4
-    vehicles = [Plow(win, 0.8, 10, 0), Truck(win, 1.3, -10, 6), RaceCar(win, 1.8, 10, 0), Car(win, 2.3, -10, 6), Coupe(win, 2.8, 10, 0)]
-    vehicles2 = [Plow(win, 0.8, 10, 0), Truck(win, 1.3, -10, 6), RaceCar(win, 1.8, 10, 0), Car(win, 2.3, -10, 6), Coupe(win, 2.8, 10, 0)]
+    vehicles = [Plow(win, 0.8, 12, 0), Truck(win, 1.3, -8, 6), RaceCar(win, 1.8, 20, 0), Car(win, 2.3, -10, 6), Coupe(win, 2.8, 15, 0)]
+    vehicles2 = [Plow(win, 0.8, 12, 0), Truck(win, 1.3, -8, 6), RaceCar(win, 1.8, 20, 0), Car(win, 2.3, -10, 6), Coupe(win, 2.8, 15, 0)]
     #Even indexes move right; odd indexes left.
 
     for j in range(len(vehicles)):
@@ -141,7 +141,7 @@ def main():
 
 def moveVehicles(vehicleList, windowName):
     for i in range(len(vehicleList)):
-        update(50)
+        update(100)
         if(i % 2 == 0): #Even index
             vehicleList[i].updateRight(1/100)
             if(vehicleList[i].getX() > 6):
