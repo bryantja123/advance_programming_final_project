@@ -1,10 +1,10 @@
-# projectile.py
+# textProjectile.py
 
 """
 projectile.py, original written by John Zelle
 for Python Programming: An Introduction to
                         Computer Science (3rd Ed.)
-                        
+
 Provides a simple class for modeling the 
 flight of projectiles.
 """
@@ -41,3 +41,17 @@ class Projectile:
     def getX(self):
         "Returns the x position (distance) of this projectile."
         return self.xpos
+
+    def setY(self, newY):
+        "Sets the y position (height) of this projectile."
+        self.ypos = newY
+
+    def setX(self, newX):
+        "Sets the x position (distance) of this projectile."
+        self.xpos = newX
+
+    def setAngle(self, angle):
+        theta = radians(angle)
+        self.xvel = velocity * cos(theta)
+        self.yvel = velocity * sin(theta)
+        
