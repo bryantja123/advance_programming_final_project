@@ -117,7 +117,8 @@ def main():
 
         moveVehicles(vehicles, win)
 
-        spawnDelay = spawnDelay + 1
+        if spawnDelay <= 20:
+            spawnDelay = spawnDelay + 1
 
         if spawnDelay == 20:
             for k in range(len(vehicles2)):

@@ -1,8 +1,13 @@
 # projectile.py
 
-"""projectile.py
+"""
+projectile.py, original written by John Zelle
+for Python Programming: An Introduction to
+                        Computer Science (3rd Ed.)
+                        
 Provides a simple class for modeling the 
-flight of projectiles."""
+flight of projectiles.
+"""
    
 from math import sin, cos, radians
 
