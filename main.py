@@ -11,6 +11,7 @@ Sebastian Castro #107094
 
 from graphics import *
 from projectile import Projectile
+from vehicle import Vehicle
 
 class Frog: #<--Placeholder
 
@@ -32,56 +33,43 @@ class Frog: #<--Placeholder
     def moveRight(self, windowName):
         pass
 
+#2 rows move to the left; 3 to the right.
 
-class Vehicle:
+class Plow(Vehicle): #Right facing sprite
     
-    #Graphical depiction of vehicle movement using red dots
-    
-    #Direction is determined by whether the
-    #given velocity is positive or negative.
-    
-    def __init__(self, windowName, height, velocity, start):
-        self.windowName = windowName
-        self.height = height
-        self.velocity = velocity
-        self.start = start
-        
     def spawn(self, windowName):
         self.proj = Projectile(0, self.velocity, self.height, self.start)
-        self.icon = Image(Point(self.start , self.height), "reddot.gif")
+        self.icon = Image(Point(self.start , self.height), "plowSprite.gif")
         self.icon.draw(windowName)
 
-    def getX(self):
-        return self.proj.getX()
+class Truck(Vehicle): #Left facing sprite
+    
+    def spawn(self, windowName):
+        self.proj = Projectile(0, self.velocity, self.height, self.start)
+        self.icon = Image(Point(self.start , self.height), "truckSprite.gif")
+        self.icon.draw(windowName)
 
-    def getY(self):
-        return self.proj.getY()
+class RaceCar(Vehicle): #Right facing sprite
+    
+    def spawn(self, windowName):
+        self.proj = Projectile(0, self.velocity, self.height, self.start)
+        self.icon = Image(Point(self.start , self.height), "carSprite3.gif")
+        self.icon.draw(windowName)
 
-    def update(self, time):
-        self.proj.update(time)
-        center = self.icon.getAnchor()
-        dx = self.proj.getX() - center.getX()
-        self.icon.move(dx, 0)
+class Car(Vehicle): #Left facing sprite
+    
+    def spawn(self, windowName):
+        self.proj = Projectile(0, self.velocity, self.height, self.start)
+        self.icon = Image(Point(self.start , self.height), "carSprite.gif")
+        self.icon.draw(windowName)
 
-    def updateRight(self, time):
-        self.proj.update(time)
-        center = self.icon.getAnchor()
-        dx = self.proj.getX() - center.getX()
-        if(center.getX() < 6):
-            self.icon.move(dx, 0)
-
-    def updateLeft(self, time):
-        self.proj.update(time)
-        center = self.icon.getAnchor()
-        dx = self.proj.getX() - center.getX()
-        if(center.getX() > 0):
-            self.icon.move(dx, 0)
-
-    def despawn(self):
-        self.icon.undraw()
-
-class Plow(Vehicle):
-    pass
+class Coupe(Vehicle): #Right facing sprite
+    
+    def spawn(self, windowName):
+        self.proj = Projectile(0, self.velocity, self.height, self.start)
+        self.icon = Image(Point(self.start , self.height), "carSprite2.gif")
+        self.icon.draw(windowName)
+        
 
 def main():
 
@@ -96,17 +84,17 @@ def main():
     controlNote.setTextColor("yellow")
     controlNote.draw(win)
     
-    #Simultaneous movement using lists was successful
-    
     #Animations are currently choppy, could smooth them out later.
 
+    #Need to adjust different vehicle velocities
+
     #                     0                         1                          2                         3                          4
-    carSims = [Vehicle(win, 0.8, 10, 0), Vehicle(win, 1.3, -10, 6), Vehicle(win, 1.8, 10, 0), Vehicle(win, 2.3, -10, 6), Vehicle(win, 2.8, 10, 0)]
-    carSims2 = [Vehicle(win, 0.8, 10, 0), Vehicle(win, 1.3, -10, 6), Vehicle(win, 1.8, 10, 0), Vehicle(win, 2.3, -10, 6), Vehicle(win, 2.8, 10, 0)]
+    vehicles = [Plow(win, 0.8, 10, 0), Truck(win, 1.3, -10, 6), RaceCar(win, 1.8, 10, 0), Car(win, 2.3, -10, 6), Coupe(win, 2.8, 10, 0)]
+    vehicles2 = [Plow(win, 0.8, 10, 0), Truck(win, 1.3, -10, 6), RaceCar(win, 1.8, 10, 0), Car(win, 2.3, -10, 6), Coupe(win, 2.8, 10, 0)]
     #Even indexes move right; odd indexes left.
 
-    for j in range(len(carSims)):
-        carSims[j].spawn(win)
+    for j in range(len(vehicles)):
+        vehicles[j].spawn(win)
         
     spawnDelay = 0
 
@@ -127,16 +115,16 @@ def main():
         elif key in ["d", "D", "Right"]:
             pass
 
-        moveVehicles(carSims, win)
+        moveVehicles(vehicles, win)
 
         spawnDelay = spawnDelay + 1
 
-        if spawnDelay == 25:
-            for k in range(len(carSims)):
-                carSims2[k].spawn(win)
+        if spawnDelay == 20:
+            for k in range(len(vehicles2)):
+                vehicles2[k].spawn(win)
 
-        if spawnDelay >= 25:
-            moveVehicles(carSims2, win)
+        if spawnDelay >= 20:
+            moveVehicles(vehicles2, win)
                 
     controlNote.undraw()
     
